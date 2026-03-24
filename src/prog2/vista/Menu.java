@@ -19,12 +19,12 @@ public class Menu<TEnum> {
     /**
      * Títol del menú
      */
-    String _titol="";
+    String _titol = "";
 
     /**
      * Llista amb els missatges associats a les accions
      */
-    String[] _descripcions=null;
+    String[] _descripcions = null;
 
     /**
      * Constructor per defecte. Se li ha de passar un enumeració de les opcions.
@@ -32,19 +32,19 @@ public class Menu<TEnum> {
      * @param llistaOpcions Enumeració amb les opcions
      */
     public Menu(String titol,TEnum[] llistaOpcions) {
-        _titol=titol;
-        _llistaOpcions=llistaOpcions;
+        _titol = titol;
+        _llistaOpcions = llistaOpcions;
     }
 
     /**
      * Permet assignar una descripció personalitzada a les opcions del menú
      * @param descripcions Llista de descripcions
      */
-    public void setDescripcions(String[] descripcions) {
-        if(descripcions.length!=_llistaOpcions.length) {
-            _descripcions=null;
+    public void setDescripcions (String[] descripcions) {
+        if (descripcions.length != _llistaOpcions.length) {
+            _descripcions = null;
         } else {
-            _descripcions=descripcions;
+            _descripcions = descripcions;
         }
     }
     
@@ -53,9 +53,9 @@ public class Menu<TEnum> {
      */
     public void mostrarMenu() {
         // Mostrem les opcions
-        String lines="--------------";
-        for(int i=0;i<getMaxLen();i++) {
-            lines+="-";
+        String lines = "--------------";
+        for(int i = 0; i < getMaxLen(); i++) {
+            lines += "-";
         }
         System.out.println(lines);
         System.out.println(_titol.toUpperCase());
@@ -63,11 +63,11 @@ public class Menu<TEnum> {
         for(TEnum c : _llistaOpcions){
             
             // Mostrem la posició
-            int pos=((Enum)c).ordinal();
+            int pos = ((Enum)c).ordinal();
             System.out.print("\t" + (pos+1) + ".- ");
             
             // Mostrem la descripció
-            if(_descripcions!=null) {
+            if(_descripcions != null) {
                 System.out.println(_descripcions[pos]);
             } else {
                 System.out.println(c);
@@ -116,9 +116,9 @@ public class Menu<TEnum> {
 
             // Mostrem la descripció
             if(_descripcions!=null) {
-                maxLen=Math.max(maxLen, _descripcions[pos].length());
+                maxLen = Math.max(maxLen, _descripcions[pos].length());
             } else {
-                maxLen=Math.max(maxLen, c.toString().length());                
+                maxLen = Math.max(maxLen, c.toString().length());
             }
         }
 
