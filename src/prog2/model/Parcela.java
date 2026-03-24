@@ -11,8 +11,8 @@ public class Parcela extends Allotjament {
     private float mida;
     private boolean connexioElectrica;
 
-    public Parcela(String nom, String id, float mida, boolean connexioElectrica) {
-        super(nom, id, ESTADA_MIN_ALTA, ESTADA_MIN_BAIXA);
+    public Parcela(String nom, String id, float mida, boolean connexioElectrica, boolean estat) {
+        super(nom, id, ESTADA_MIN_ALTA, ESTADA_MIN_BAIXA, estat);
         this.mida = mida;
         this.connexioElectrica = connexioElectrica;
     }
