@@ -88,7 +88,7 @@ public class ExempleMenu {
      */
     private void gestioMenuSecundari(Scanner sc) {
 
-        // Creem l'objecte per al menú. Li passem com a primer parÃ metre el nom del menú
+        // Creem l'objecte per al menú. Li passem com a primer parametre el nom del menú
         Menu<OpcionsSubmenu1> menu=new Menu<OpcionsSubmenu1>("Menu Secundari",OpcionsSubmenu1.values());
 
         // Assignem la descripció de les opcions

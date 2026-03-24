@@ -1,7 +1,7 @@
 package prog2.model;
 
 public class TascaManteniment implements InTascaManteniment{
-
+    //enum dels tipus de tasca manteniment
     public static enum TipusTascaManteniment{
         Reparacio,
         Neteja,
@@ -15,6 +15,7 @@ public class TascaManteniment implements InTascaManteniment{
     private String data;
     private int dies;
 
+    //Constructor TascaManteniment
     public TascaManteniment(int num, TipusTascaManteniment tipus,
                             Allotjament allotjament, String data, int dies){
 
@@ -27,45 +28,55 @@ public class TascaManteniment implements InTascaManteniment{
     }
 
     public  int getNum() {
+
         return num;
     }
 
     public TascaManteniment.TipusTascaManteniment getTipus() {
+
         return tipus;
     }
 
     public Allotjament getAllotjament(){
+
         return allotjament;
     }
 
     public String getData(){
+
         return data;
     }
 
     public int getDies(){
+
         return dies;
     }
 
     public void setNum(int num){
+
         this.num = num;
     }
 
     public void setTipus(TipusTascaManteniment tipus){
+
         this.tipus = tipus;
     }
 
     @Override
     public void setAllotjament(Allotjament allotjament) {
+
         this.allotjament = allotjament;
     }
 
     @Override
     public void setData(String data) {
+
         this.data = data;
     }
 
     @Override
     public void setDies(int dies) {
+
         this.dies = dies;
     }
 
@@ -73,8 +84,7 @@ public class TascaManteniment implements InTascaManteniment{
     public String getIluminacioAllotjament() {
         switch (tipus)
             {
-            case Reparacio: return "50%";
-            case RevisioTecnica: return "50%";
+            case Reparacio, RevisioTecnica: return "50%";
             case Desinfeccio: return "0%";
             case Neteja: return "100%";
             default: return null;
