@@ -42,7 +42,7 @@ public class LlistaAllotjaments implements InLlistaAllotjaments{
             }
         }
         if(n == 0){
-            throw new ExcepcioCamping("Llista de allotjamnets sense cap allotjament amb l'estat pasat. ");
+            throw new ExcepcioCamping("Llista de allotjaments sense cap allotjament amb l'estat pasat. ");
         }
         return llista;
     }

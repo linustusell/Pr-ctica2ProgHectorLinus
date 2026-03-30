@@ -3,6 +3,7 @@ package prog2.model;
 import prog2.vista.ExcepcioCamping;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class LlistaTasquesManteniment implements InLlistaTasquesManteniment{
     private ArrayList<TascaManteniment> llistaTasquesManteniment;
@@ -12,7 +13,6 @@ public class LlistaTasquesManteniment implements InLlistaTasquesManteniment{
     }
 
     public void afegirTascaManteniment(int num, String tipus, Allotjament allotjament, String data, int dies) throws ExcepcioCamping{
-        // 1. Convertir String a enum
         TascaManteniment.TipusTascaManteniment tipusEnum;
         try {
             tipusEnum = TascaManteniment.TipusTascaManteniment.valueOf(tipus.toUpperCase());
@@ -20,18 +20,61 @@ public class LlistaTasquesManteniment implements InLlistaTasquesManteniment{
             throw new ExcepcioCamping("El tipus de tasca no existeix");
         }
 
-        // 2. Comprovar si ja té una tasca
-        for (TascaManteniment t : llistaTasquesManteniment) {
+        Iterator<TascaManteniment> itr = llistaTasquesManteniment.iterator();
+        while (itr.hasNext()) {
+            TascaManteniment t = itr.next();
             if (t.getAllotjament().equals(allotjament)) {
                 throw new ExcepcioCamping("Aquest allotjament ja té una tasca");
             }
         }
 
-        // 3. Crear tasca i afegir-la
         TascaManteniment tasca = new TascaManteniment(num, tipusEnum, allotjament, data, dies);
         llistaTasquesManteniment.add(tasca);
 
-        // 4. Tancar allotjament
         allotjament.tancarAllotjament(tasca);
+    }
+
+    @Override
+    public void completarTascaManteniment(TascaManteniment tasca) throws ExcepcioCamping {
+        boolean esta = false;
+        Iterator<TascaManteniment> itr = llistaTasquesManteniment.iterator();
+        while (itr.hasNext()) {
+            TascaManteniment t = itr.next();
+            if (tasca.equals(t)) {
+                Allotjament allotjament = t.getAllotjament();
+                allotjament.tancarAllotjament(tasca);
+                llistaTasquesManteniment.remove(tasca);
+                esta = true;
+            }
+        }
+        if (!esta)
+            throw new ExcepcioCamping("La tasca no existeix. ");
+
+    }
+
+    public String llistarTasquesManteniment() throws ExcepcioCamping{
+        String llista = "";
+
+        if(llistaTasquesManteniment.isEmpty())
+            throw new ExcepcioCamping("La llista de tasques de manteniment està buida.");
+
+        Iterator<TascaManteniment> itr = llistaTasquesManteniment.iterator();
+        while(itr.hasNext()){
+            TascaManteniment t = itr.next();
+            llista += t.toString();
+        }
+        return llista;
+    }
+
+    public TascaManteniment  getTascaManteniment(int num) throws ExcepcioCamping{
+        Iterator<TascaManteniment> itr = llistaTasquesManteniment.iterator();
+
+        while(itr.hasNext()){
+            TascaManteniment t = itr.next();
+            if(t.getNum() == num)
+                return t;
+        }
+
+        throw new ExcepcioCamping("La tasques de manteniment no existeix");
     }
 }
