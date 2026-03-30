@@ -8,10 +8,10 @@ public abstract class Allotjament implements InAllotjament {
     private String id;
     private long estadaMinimaALTA;
     private long estadaMinimaBAIXA;
-    private String estat;
+    private boolean estat;
     private Iluminacio iluminacio;
 
-    public Allotjament(String nom, String id, long estadaMinimaALTA, long estadaMinimaBAIXA, String estat) {
+    public Allotjament(String nom, String id, long estadaMinimaALTA, long estadaMinimaBAIXA, boolean estat) {
         this.nom = nom;
         this.id = id;
         this.estadaMinimaALTA = estadaMinimaALTA;
@@ -40,7 +40,7 @@ public abstract class Allotjament implements InAllotjament {
 
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
-    public String getEstat() { return estat; }
+    public boolean getEstat() { return estat; }
 
     public long getEstadaMinima(InAllotjament.Temp temp){
         if (temp == InAllotjament.Temp.ALTA){

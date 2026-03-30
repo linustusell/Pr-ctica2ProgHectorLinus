@@ -27,12 +27,16 @@ public class LlistaAllotjaments implements InLlistaAllotjaments{
     }
 
     public String llistarAllotjaments(String estat) throws ExcepcioCamping{
-        String llista = ""; int n = 0;
+        boolean operatiu = false;
+        if(estat == "disponible"){
+            operatiu = true;
+        }
+        int n = 0; String llista = "";
 
         Iterator<Allotjament> itrAllotjament = allotjaments.iterator();
         while(itrAllotjament.hasNext()){
             Allotjament allotjament = itrAllotjament.next();
-            if(allotjament.getEstat().equals(estat)){
+            if(allotjament.getEstat() == operatiu){
                 llista += allotjament.toString();
                 n++;
             }
@@ -66,10 +70,18 @@ public class LlistaAllotjaments implements InLlistaAllotjaments{
                 esta = true;
         }
         return esta;
-
     }
 
     public Allotjament getAllotjament(String id) throws ExcepcioCamping{
+        Iterator<Allotjament> itrAllotjament = allotjaments.iterator();
+
+        while(itrAllotjament.hasNext()){
+            Allotjament allotjamentPos = itrAllotjament.next();
+            if(allotjamentPos.getId().equals(id))
+                 return allotjamentPos;
+        }
+
+            throw new ExcepcioCamping("Llista de allotjamnets sense cap allotjament amb aquest id. ");
 
     }
 }

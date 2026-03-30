@@ -54,9 +54,9 @@ public class LlistaAccessos implements InLlistaAccessos {
 
     @Override
     public float calculaMetresTerra() throws ExcepcioCamping {
-        if (accesos.isEmpty()) {
-            throw new ExcepcioCamping("La llista d'accesos esta buida.");
-        }
+        if (accesos.isEmpty())
+            throw new ExcepcioCamping("La llista d'accesos està buida.");
+
         float metres = 0;
         Iterator<Acces> itrAccesos = accesos.iterator();
         while(itrAccesos.hasNext()){
@@ -65,5 +65,22 @@ public class LlistaAccessos implements InLlistaAccessos {
                 metres += ((AccesTerra) acces).getMetresQuadrat();
         }
         return metres;
+    }
+
+    @Override
+    public void actualitzaEstatAccessos() throws ExcepcioCamping {
+        Iterator<Acces> itrAccesos = accesos.iterator();
+        while( itrAccesos.hasNext()){
+            Acces acces = itrAccesos.next();
+            LlistaAllotjaments llistaAllotjaments = acces.getAAllotjaments();
+
+            if(accesos.isEmpty())
+                throw new ExcepcioCamping("La llista d'accesos està buida.");
+
+            if(acces.getEstat() && !llistaAllotjaments.containsAllotjamentOperatiu())
+                acces.tancarAcces();
+            else
+                acces.tancarAcces();
+        }
     }
 }
