@@ -46,8 +46,11 @@ public class LlistaAccessos implements InLlistaAccessos {
         Acces acces = null;
         Iterator itrAccesos = accesos.iterator();
         while(itrAccesos.hasNext()){
-            if(!acces.getEstat())
+            if(!acces.isAccessibilitat())
                 total++;
+        }
+        if(total == 0){
+            throw new ExcepcioCamping("No hi ha accessos no disponibles");
         }
         return total;
     }

@@ -1,5 +1,7 @@
 package prog2.model;
 
+import prog2.vista.ExcepcioCamping;
+
 public abstract class Acces implements InAcces{
 
     private String nom;
@@ -13,7 +15,7 @@ public abstract class Acces implements InAcces{
     }
 
     @Override
-    public void afegirAllotjament(Allotjament allotjament) {
+    public void afegirAllotjament(Allotjament allotjament) throws ExcepcioCamping {
         llistaAllotjaments.afegirAllotjament(allotjament);
     }
 

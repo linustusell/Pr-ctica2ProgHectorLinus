@@ -10,11 +10,10 @@ public class MobilHome extends Casa {
 
     private boolean terrassaBarbacoa;
 
-    public MobilHome(String nom, String id,boolean estat,
-                     String mida, int habitacions, int placesPersones,
+    public MobilHome(String nom, String id, boolean estat, String iluminacio,
+                     float mida, int habitacions, int placesPersones,
                      boolean terrassaBarbacoa) {
-        super(nom, id, ESTADA_MIN_ALTA, ESTADA_MIN_BAIXA, estat,
-                mida, habitacions, placesPersones);
+        super(nom, id, estat, iluminacio,ESTADA_MIN_ALTA, ESTADA_MIN_BAIXA, mida, habitacions, placesPersones);
         this.terrassaBarbacoa = terrassaBarbacoa;
     }
 

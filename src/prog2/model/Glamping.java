@@ -10,13 +10,11 @@ public class Glamping extends Casa {
 
     private String material;
     private boolean casaMascota;
-    private boolean estat;
 
-    public Glamping(String nom, String id,
-                    String mida, int habitacions, int placesPersones,
+    public Glamping(String nom, String id, boolean estat, String iluminacio,
+                    float mida, int habitacions, int placesPersones,
                     String material, boolean casaMascota) {
-        super(nom, id, ESTADA_MIN_ALTA, ESTADA_MIN_BAIXA,
-                mida, habitacions, placesPersones);
+        super(nom, id, estat, iluminacio, ESTADA_MIN_ALTA, ESTADA_MIN_BAIXA, mida, habitacions, placesPersones);
         this.material = material;
         this.casaMascota = casaMascota;
     }

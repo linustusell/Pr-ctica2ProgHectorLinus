@@ -3,20 +3,20 @@ package prog2.model;
 import java.time.LocalDate;
 
 public abstract class Allotjament implements InAllotjament {
-    enum Iluminacio{"100%", "50%", "0%"};
     private String nom;
     private String id;
     private long estadaMinimaALTA;
     private long estadaMinimaBAIXA;
     private boolean estat;
-    private Iluminacio iluminacio;
+    private String iluminacio;
 
-    public Allotjament(String nom, String id, long estadaMinimaALTA, long estadaMinimaBAIXA, boolean estat) {
+    public Allotjament(String nom, String id,boolean estat, String iluminacio, long estadaMinimaALTA, long estadaMinimaBAIXA) {
         this.nom = nom;
         this.id = id;
         this.estadaMinimaALTA = estadaMinimaALTA;
         this.estadaMinimaBAIXA = estadaMinimaBAIXA;
         this.estat = estat;
+        this.iluminacio = iluminacio;
     }
 
     // Temporada ALTA: del 21/03 al 20/09. Temporada BAIXA: la resta.
@@ -63,6 +63,17 @@ public abstract class Allotjament implements InAllotjament {
                 ", Id=" + id +
                 ", estada mínima en temp ALTA: " + estadaMinimaALTA +
                 ", estada mínima en temp BAIXA: " + estadaMinimaBAIXA+".";
+    }
+
+    public void tancarAllotjament(TascaManteniment tasca) {
+        estat = false;
+        iluminacio = tasca.getIluminacioAllotjament();
+    }
+
+    @Override
+    public void obrirAllotjament() {
+        estat = true;
+        iluminacio = "100%";
     }
 }
 

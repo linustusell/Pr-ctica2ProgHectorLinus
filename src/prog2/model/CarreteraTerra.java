@@ -2,9 +2,9 @@ package prog2.model;
 
 public class CarreteraTerra extends AccesTerra {
 
-    private int amplada;
+    private float amplada;
 
-    public CarreteraTerra(String nom, boolean obert, int metres, int amplada) {
+    public CarreteraTerra(String nom, boolean obert, float metres, float amplada) {
         super(nom, obert, metres);
         this.amplada = amplada;
     }
@@ -14,7 +14,7 @@ public class CarreteraTerra extends AccesTerra {
         return true;
     }
 
-    public int getAmplada() {
+    public float getAmplada() {
         return amplada;
     }
 

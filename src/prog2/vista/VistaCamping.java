@@ -39,14 +39,14 @@ public class VistaCamping {
 
     private Camping camping;
 
-    public VistaCamping(String nomCamping) {
+    public VistaCamping(String nomCamping) throws ExcepcioCamping{
         camping = new Camping(nomCamping);
         camping.inicialitzaDadesCamping();
     }
 
     LlistaAllotjaments llista = new LlistaAllotjaments();
 
-    public void gestioCamping() {
+    public void gestioCamping() throws ExcepcioCamping {
         Scanner sc = new Scanner(System.in);
         Menu<OpcionsMenu> menu = new Menu<OpcionsMenu>("Menu Càmping Green", OpcionsMenu.values());
         menu.setDescripcions(descripcions);

@@ -7,14 +7,16 @@ import java.time.LocalDate;
 
 public class Camping implements InCamping{
     private String nom;
-    private ArrayList<Allotjament> allotjamentsDisponibles ;
-    private LlistaReserves reserves;
+    private LlistaAllotjaments allotjaments;
+    private LlistaAccessos accessos;
+    private LlistaTasquesManteniment tasquesManteniment;
     private ArrayList<Client> clients;
 
     public Camping(String nom){
-        allotjamentsDisponibles = new  ArrayList<Allotjament>();
+        allotjaments = new LlistaAllotjaments();
+        accessos = new LlistaAccessos();
+        tasquesManteniment = new LlistaTasquesManteniment();
         clients = new ArrayList<Client>();
-        reserves =  new LlistaReserves();
         this.nom = nom;
     }
 
@@ -22,44 +24,17 @@ public class Camping implements InCamping{
     public String getNomCamping() {
         return nom;
     }
-    @Override
-    public LlistaReserves getLlistaReserves() {
-        return reserves;
+
+    public LlistaAllotjaments getLlistaAllotjaments() {
+        return allotjaments;
     }
-    @Override
-    public ArrayList<Allotjament> getLlistaAllotjaments() {
-        return allotjamentsDisponibles;
-    }
-    @Override
+
     public ArrayList<Client> getLlistaClients() {
         return clients;
     }
 
-    @Override
-    public int getNumAllotjaments() {
-        return allotjamentsDisponibles.size();
-    }
-
-    @Override
-    public int getNumReserves() {
-        return reserves.getNumReserves();
-    }
-
-    @Override
     public int getNumClients() {
         return clients.size();
-    }
-
-    public Allotjament buscarAllotjament(String id){
-        Iterator itrAllotjament = allotjamentsDisponibles.iterator();
-
-        while(itrAllotjament.hasNext()){
-            Allotjament allotjament = (Allotjament)itrAllotjament.next();
-            if(allotjament.getId().equals(id)){
-                return allotjament;
-            }
-        }
-        return null;
     }
 
     public Client buscarClient(String dni){
@@ -84,88 +59,253 @@ public class Camping implements InCamping{
             return InAllotjament.Temp.BAIXA;
     }
 
-    @Override
-    public void afegirReserva(String id_, String dni_, LocalDate dataEntrada, LocalDate dataSortida) throws ExcepcioCamping {
-        Allotjament allotjament = buscarAllotjament(id_);
-        Client client = buscarClient(dni_);
 
-        if(allotjament == null)
-            throw new ExcepcioCamping("L'allotjament amb id " + id_ + " no existeix");
-        else if (client == null)
-            throw new ExcepcioCamping("El client amb DNI " + dni_ + " no existeix");
-        else
-            reserves.afegirReserva(allotjament, client, dataEntrada, dataSortida);
-    }
-
-    @Override
     public void afegirClient(String nom_, String dni_) {
         Client client = new Client(nom_, dni_);
 
         clients.add(client);
     }
 
-    @Override
-    public void afegirBungalow(String nom_, String idAllotjament_, String mida, int habitacions, int placesPersones,
-                               int placesParquing, boolean terrassa, boolean tv, boolean aireFred) {
-        Bungalow bungalow = new Bungalow(nom_, idAllotjament_, mida, habitacions, placesPersones, placesParquing, terrassa, tv, aireFred);
+    public void afegirBungalow(String nom_, String idAllotjament_, float mida, int habitacions, int placesPersones,
+                               int placesParquing, boolean terrassa, boolean tv, boolean aireFred) throws ExcepcioCamping{
+        Bungalow bungalow = new Bungalow(nom_, idAllotjament_,true, "100%", mida, habitacions, placesPersones, placesParquing, terrassa, tv, aireFred);
 
-        allotjamentsDisponibles.add(bungalow);
+        allotjaments.afegirAllotjament(bungalow);
     }
-    @Override
-    public void afegirBungalowPremium(String nom_, String idAllotjament_, String mida, int habitacions, int placesPersones,
-                                      int placesParquing, boolean terrassa, boolean tv, boolean aireFred,
-                                      boolean serveisExtra, String codiWifi){
 
-        BungalowPremium bungalowPremium = new BungalowPremium(nom_, idAllotjament_, mida, habitacions, placesPersones, placesParquing, terrassa,
+    public void afegirBungalowPremium(String nom_, String idAllotjament_, float mida, int habitacions, int placesPersones,
+                                      int placesParquing, boolean terrassa, boolean tv, boolean aireFred,
+                                      boolean serveisExtra, String codiWifi) throws ExcepcioCamping {
+
+        BungalowPremium bungalowPremium = new BungalowPremium(nom_, idAllotjament_,true, "100%", mida, habitacions, placesPersones, placesParquing, terrassa,
                 tv, aireFred, serveisExtra, codiWifi);
     }
 
-    @Override
-    public void afegirParcela(String nom_, String idAllotjament_, float metres, boolean conexioElectrica){
-        Parcela parcela = new Parcela(nom_, idAllotjament_, metres, conexioElectrica);
-        allotjamentsDisponibles.add(parcela);
+    public void afegirParcela(String nom_, String idAllotjament_, float metres, boolean conexioElectrica) throws ExcepcioCamping{
+        Parcela parcela = new Parcela(nom_, idAllotjament_, true, "100%", metres, conexioElectrica);
+        allotjaments.afegirAllotjament(parcela);
+    }
+
+    public void afegirGlamping(String nom_, String idAllotjament_, float mida, int habitacions, int placesPersones,
+                              String material, boolean casaMascota) throws ExcepcioCamping{
+
+        Glamping glamping = new Glamping(nom_, idAllotjament_,true, "100%", mida, habitacions, placesPersones, material, casaMascota);
+        allotjaments.afegirAllotjament(glamping);
+    }
+
+    public void afegirMobilHome(String nom_, String idAllotjament_, float mida,  int habitacions, int placesPersones, boolean terrassaBarbacoa) throws ExcepcioCamping{
+        MobilHome mobilHome = new MobilHome(nom_, idAllotjament_, true, "100%", mida, habitacions, placesPersones, terrassaBarbacoa);
+
+        allotjaments.afegirAllotjament(mobilHome);
     }
 
     @Override
-    public void afegirGlamping(String nom_, String idAllotjament_, String mida, int habitacions, int placesPersones,
-                              String material, boolean casaMascota){
+    public String llistarAllotjaments(String estat) throws ExcepcioCamping {
+        String llista = allotjaments.llistarAllotjaments(estat);
+        return llista;
+    }
 
-        Glamping glamping = new Glamping(nom_, idAllotjament_, mida, habitacions, placesPersones, material, casaMascota);
-        allotjamentsDisponibles.add(glamping);
+    public String llistarTasquesManteniment() throws ExcepcioCamping {
+        String llista = tasquesManteniment.llistarTasquesManteniment();
+        return llista;
+    }
+
+    public String llistarAccessos(String infoEstat) throws ExcepcioCamping {
+        boolean estat = false;
+        if(infoEstat.equals("Operatiu"))
+            estat = true;
+
+        String llista = accessos.llistarAccessos(estat);
+        return llista;
+    }
+
+    public void afegirTascaManteniment(int num, String tipus, String idAllotjament, String data, int dies) throws ExcepcioCamping{
+        Allotjament allotjament = allotjaments.getAllotjament(idAllotjament);
+        tasquesManteniment.afegirTascaManteniment(num, tipus, allotjament, data, dies);
+    }
+
+    public void completarTascaManteniment(int num) throws ExcepcioCamping {
+        TascaManteniment tasca = tasquesManteniment.getTascaManteniment(num);
+        tasquesManteniment.completarTascaManteniment(tasca);
+    }
+
+    public int calculaAccessosNoAccessibles() throws ExcepcioCamping {
+        int num = accessos.calculaAccessosNoAccessibles();
+        return num;
     }
 
     @Override
-    public void afegirMobilHome(String nom_, String idAllotjament_, String mida, int habitacions, int placesPersones, boolean terrassaBarbacoa) {
-        MobilHome mobilHome = new MobilHome(nom_, idAllotjament_, mida, habitacions, placesPersones, terrassaBarbacoa);
-
-        allotjamentsDisponibles.add(mobilHome);
+    public float calculaMetresTerra() throws ExcepcioCamping{
+        float metres = accessos.calculaMetresTerra();
+        return metres;
     }
 
     @Override
-    public int calculAllotjamentsOperatius() {
-        Iterator<Allotjament> iterator = allotjamentsDisponibles.iterator();
-        int contador = 0;
-        while(iterator.hasNext()){
-            Allotjament allotjament = iterator.next();
-            if(allotjament.correcteFuncionament())
-                contador++;
-        }
+    public void save(String camiDesti) throws ExcepcioCamping {
 
-        return contador;
+    }
+
+    static Camping load(String camiOrigen) throws ExcepcioCamping {
+
     }
 
     @Override
-    public Allotjament getAllotjamentEstadaMesCurta(InAllotjament.Temp temp) {
-        Iterator<Allotjament> iterator = allotjamentsDisponibles.iterator();
-        long estadaMesCurta = 10;
-        Allotjament allotjament = null;
-        while(iterator.hasNext()){
-            Allotjament posAllotjament = iterator.next();
-            if(posAllotjament.getEstadaMinima(temp) < estadaMesCurta){
-                estadaMesCurta = posAllotjament.getEstadaMinima(temp);
-                allotjament = posAllotjament;
-            }
-        }
-        return allotjament;
+    public void inicialitzaDadesCamping() throws ExcepcioCamping{
+
+        accessos.buidar();
+
+        float asfalt = 200;
+        Acces Acc1 = new CamiAsfalt("A1", true, asfalt);
+        accessos.afegirAcces(Acc1);
+
+        asfalt = 800;
+        float pesMaxim = 10000;
+        Acces Acc2 = new CarreteraAsfalt("A2", true, asfalt, pesMaxim);
+        accessos.afegirAcces(Acc2);
+
+        float longitud = 100;
+        Acces Acc3 = new CamiTerra("A3", true, longitud);
+        accessos.afegirAcces(Acc3);
+
+        longitud = 200;
+        float amplada = 3;
+        Acces Acc4 = new CarreteraTerra("A4", true, longitud, amplada);
+        accessos.afegirAcces(Acc4);
+
+        asfalt = 350;
+        Acces Acc5 = new CamiAsfalt("A5", true, asfalt);
+        accessos.afegirAcces(Acc5);
+
+        asfalt = 800;
+        pesMaxim = 12000;
+        Acces Acc6 = new CarreteraAsfalt("A6", true, asfalt, pesMaxim);
+        accessos.afegirAcces(Acc6);
+
+        asfalt = 100;
+        Acces Acc7 = new CamiAsfalt("A7", true, asfalt);
+        accessos.afegirAcces(Acc7);
+
+        asfalt = 800;
+        pesMaxim = 10000;
+        Acces Acc8 = new CarreteraAsfalt("A8", true, asfalt, pesMaxim);
+        accessos.afegirAcces(Acc8);
+
+        longitud = 50;
+        Acces Acc9 = new CamiTerra("A9", true, longitud);
+        accessos.afegirAcces(Acc9);
+
+        longitud = 400;
+        amplada = 4;
+        Acces Acc10 = new CarreteraTerra("A10", true, longitud, amplada);
+        accessos.afegirAcces(Acc10);
+
+        longitud = 80;
+        Acces Acc11 = new CamiTerra("A11", true, longitud);
+        accessos.afegirAcces(Acc11);
+
+        longitud = 800;
+        amplada = 5;
+        Acces Acc12 = new CarreteraTerra("A12", true, longitud, amplada);
+        accessos.afegirAcces(Acc12);
+
+
+        /* Pistes */
+        allotjaments.buidar();
+
+
+        // Afegir parcel·les:
+        //------------------------------
+
+        String nom = "Parcel·la Nord";
+        String idAllotjament = "ALL1";
+        float mida = 64.0f;
+        boolean connexioElectrica = true;
+
+        Parcela ALL1 = new Parcela(nom, idAllotjament, true, "100%", mida, connexioElectrica);
+        allotjaments.afegirAllotjament(ALL1);
+
+        nom = "Parcel·la Sud";
+        idAllotjament = "ALL2";
+
+        Parcela ALL2 = new Parcela(nom, idAllotjament, true, "100%", mida, connexioElectrica);
+        allotjaments.afegirAllotjament(ALL2);
+
+        // Afegir bungalows:
+        //------------------------------
+
+        nom = "Bungalow Nord";
+        idAllotjament = "ALL3";
+        mida = 22f;
+        int habitacions =2;
+        int placesPersones = 4;
+        int placesParquing = 1;
+        boolean terrassa = true;
+        boolean tv= true;
+        boolean aireFred = true;
+
+        Bungalow ALL3 = new Bungalow(nom, idAllotjament, true, "100%", mida, habitacions, placesPersones, placesParquing, terrassa, tv, aireFred);
+        allotjaments.afegirAllotjament(ALL3);
+
+
+        // Afegir bungalows premium:
+        //------------------------------
+        nom = "Bungallow Sud";
+        idAllotjament = "ALL4";
+        mida = 27f;
+        habitacions =2;
+        placesPersones = 6;
+        placesParquing = 1;
+        terrassa = true;
+        tv= true;
+        aireFred = true;
+        boolean serveisExtra = true;
+        String codiWifi = "CampingDelMarBP1";
+
+        BungalowPremium ALL4 = new BungalowPremium(nom, idAllotjament, true, "100%", mida, habitacions, placesPersones, placesParquing, terrassa, tv, aireFred, serveisExtra, codiWifi);
+        allotjaments.afegirAllotjament(ALL4);
+
+        // Afegir Glamping:
+        //------------------------------
+
+        nom = "Glamping Nord";
+        idAllotjament = "ALL5";
+        mida = 20f;
+        habitacions =1;
+        placesPersones = 2;
+        String material = "Tela";
+        boolean casaMascota = true;
+
+        Glamping ALL5 = new Glamping(nom, idAllotjament, true, "100%", mida, habitacions, placesPersones, material, casaMascota);
+        allotjaments.afegirAllotjament(ALL5);
+
+
+        // Afegir Mobil-Home:
+        //------------------------------
+
+        nom = "Mobil-Home Sud";
+        idAllotjament = "ALL6";
+        mida = 20f;
+        habitacions =  2;
+        placesPersones = 4;
+        boolean terrassaBarbacoa = true;
+
+        MobilHome ALL6 = new MobilHome(nom, idAllotjament, true, "100%", mida, habitacions, placesPersones, terrassaBarbacoa);
+        allotjaments.afegirAllotjament(ALL6);
+
+        /* Accés */
+        Acc1.afegirAllotjament(ALL1); Acc1.afegirAllotjament(ALL2);
+        Acc2.afegirAllotjament(ALL1); Acc2.afegirAllotjament(ALL2);
+        Acc3.afegirAllotjament(ALL3);
+        Acc4.afegirAllotjament(ALL3);
+        Acc5.afegirAllotjament(ALL4);
+        Acc6.afegirAllotjament(ALL4);
+        Acc7.afegirAllotjament(ALL5); Acc7.afegirAllotjament(ALL6);
+        Acc8.afegirAllotjament(ALL5); Acc8.afegirAllotjament(ALL6);
+        Acc9.afegirAllotjament(ALL2);
+        Acc10.afegirAllotjament(ALL2);
+        Acc11.afegirAllotjament(ALL6);
+        Acc12.afegirAllotjament(ALL6);
+
+
     }
 }

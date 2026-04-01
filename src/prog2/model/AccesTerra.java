@@ -2,14 +2,14 @@ package prog2.model;
 
 public abstract class AccesTerra extends Acces {
 
-    private int metres;
+    private float metres;
 
-    public AccesTerra(String nom, boolean obert, int metres) {
+    public AccesTerra(String nom, boolean obert, float metres) {
         super(nom, obert);
         this.metres = metres;
     }
 
-    public int getMetresQuadrat() {
+    public float getMetresQuadrat() {
         return metres;
     }
 
