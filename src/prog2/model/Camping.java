@@ -2,10 +2,11 @@ package prog2.model;
 
 import prog2.vista.ExcepcioCamping;
 
+import java.io.*;
 import java.util.*;
 import java.time.LocalDate;
 
-public class Camping implements InCamping{
+public class Camping implements InCamping, Serializable {
     private String nom;
     private LlistaAllotjaments allotjaments;
     private LlistaAccessos accessos;
@@ -142,10 +143,30 @@ public class Camping implements InCamping{
 
     @Override
     public void save(String camiDesti) throws ExcepcioCamping {
-
+        try{
+            File fitxer = new File(camiDesti);
+            FileOutputStream fout = new FileOutputStream(fitxer);
+            ObjectOutputStream oos = new ObjectOutputStream(fout);
+            oos.writeObject(this);
+            oos.close();
+        }catch(Exception e){
+            throw new ExcepcioCamping("Error guardant el càmping.");
+        }
     }
 
-    static Camping load(String camiOrigen) throws ExcepcioCamping {
+    public static Camping load(String camiOrigen) throws ExcepcioCamping {
+        try {
+            File fitxer = new File(camiOrigen);
+            FileInputStream fin = new FileInputStream(fitxer);
+            ObjectInputStream ois = new ObjectInputStream(fin);
+
+            Camping camping = (Camping) ois.readObject();
+            ois.close();
+
+            return camping;
+        }catch (Exception e){
+            throw new ExcepcioCamping("Error carregant el càmping.");
+        }
 
     }
 
