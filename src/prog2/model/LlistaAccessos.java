@@ -49,9 +49,9 @@ public class LlistaAccessos implements InLlistaAccessos {
             if(!acces.isAccessibilitat())
                 total++;
         }
-        if(total == 0){
-            throw new ExcepcioCamping("No hi ha accessos no disponibles");
-        }
+        if(total == 0)
+            throw new ExcepcioCamping("No hi ha accessos no accessibles");
+
         return total;
     }
 
@@ -83,7 +83,7 @@ public class LlistaAccessos implements InLlistaAccessos {
             if(acces.getEstat() && !llistaAllotjaments.containsAllotjamentOperatiu())
                 acces.tancarAcces();
             else
-                acces.tancarAcces();
+                acces.obrirAcces();
         }
     }
 }
