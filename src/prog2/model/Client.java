@@ -1,6 +1,6 @@
 package prog2.model;
 
-public class Client implements InClient{
+public class Client {
     private String nom;
     private String dni;
 
@@ -9,12 +9,12 @@ public class Client implements InClient{
         this.dni = dni;
     }
 
-    @Override
+
     public void setNom(String nom) {
         this.nom = nom;
     }
 
-    @Override
+
     public void setDni(String dni) {
         this.dni = dni;
     }
@@ -26,7 +26,7 @@ public class Client implements InClient{
         return dni;
     }
 
-    @Override
+
     public String toString(){
         return  nom + " amb DNI: " + dni+". ";
     }
